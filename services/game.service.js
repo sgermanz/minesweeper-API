@@ -1,6 +1,7 @@
 'use strict';
 
 var GameRepository = require('../repositories/game.repository')
+var Game = require('../classes/game.class')
 
 ////////////////////////////////////////////////////////////////////////////////
 // MESSAGES
@@ -18,7 +19,7 @@ const FIND_MANY_ERROR = "Error finding Games";
 
 async function createGame(game){
     try{
-        return GameRepository.createGame(game)
+        return GameRepository.createGame(new Game(game))
     }
     catch(error){
         throw CREATE_ERROR + JSON.stringify(error);

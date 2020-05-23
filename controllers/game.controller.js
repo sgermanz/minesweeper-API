@@ -61,6 +61,20 @@ async function createGame(req, res) {
   try {
     // Receiving parameters
     var params = req.body;
+    var mandatory = ["rows", "columns", "mines"];
+    for(var i = 0; i < mandatory.length; i++){
+        if(params[mandatory[i]] == undefined) {
+            throw "Missing Params"
+        }
+    }
+
+    let columns = params.columns;
+    let rows = params.rows;
+    let mines = params.mines;
+    console.log("params", params)
+    if(mines > columns * rows){
+        throw "More mines than cells"
+    }
 
     // Call to service
     var result = await gameService.createGame(params);

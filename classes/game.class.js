@@ -34,6 +34,33 @@ class Game {
                 field_rows[i] = field_columns;
             }
             this.field = field_rows;
+
+            this.initializeMines();
+        }
+    }
+
+    initializeMines(){
+        function getRandom(range, n) {            
+            let result = new Array(n);
+            while (n - 1 >= 0) {
+                let x = Math.floor(Math.random() * range);
+                if(!result.includes(x)){
+                    result[n-1] = x;
+                    n--;
+                }
+            }
+            return result;
+        }
+
+        let mined = getRandom(this.rows * this.columns, this.mines)
+        let count = 0;
+        for(var i = 0; i < this.rows; i++){
+            for(var j = 0; j < this.columns; j++){
+                if(mined.includes(count)){
+                    this.field[i][j].mined = true;
+                }
+                count++;
+            }
         }
     }
 
