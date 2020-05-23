@@ -1,3 +1,5 @@
+var _ = require('lodash');
+
 function getObjectFromMongoose(element){
     return element.toObject();
 }
@@ -10,7 +12,27 @@ function getObjectsFromMongoose(elements){
     return objects;
 }
 
+function compareMongooseObjects(object1, object2, attributes){
+    let equal = true;
+    for(var i = 0; i < attributes.length; i++){
+        let attribute = attributes[i]
+        let current_equal = true;
+        // if((typeof object1[attribute]).localeCompare("object") == 0){
+        //     current_equal = compareMongooseObjects(object1[attribute], object2[attribute], Object.keys(object2[attribute]))
+        // }
+        // else{
+            current_equal = _.isEqual(object1[attribute], object2[attribute]);
+            console.log("atribute", attribute);
+            console.log("equal", current_equal)
+        // }
+        equal = equal && current_equal;
+    }
+
+    return equal;
+}
+
 module.exports = {
     getObjectFromMongoose,
-    getObjectsFromMongoose
+    getObjectsFromMongoose,
+    compareMongooseObjects
 }

@@ -1,7 +1,10 @@
 var mongoose = require('mongoose');
 
 function initialize(){
-    mongoose.connect('mongodb://'+process.env.MONGO_PATH+':'+ process.env.MONGO_PORT +'/' + process.env.MONGO_DB);
+    let mongoPath = process.env.MONGO_PATH || "localhost";
+    let mongoPort = process.env.MONGO_PORT || "27017";
+    let mongoDB = process.env.MONGO_PATH || "default";
+    mongoose.connect('mongodb://' + mongoPath +':'+ mongoPort +'/' + mongoDB);
 }
 
 module.exports = {
