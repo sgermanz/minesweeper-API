@@ -23,7 +23,9 @@ function getGameByID(){
             mined: false,
             question: false,
             revealed: false
-        }]]
+        }]],
+        "revealed": 0,
+        "finished": false
     })
 }
 
@@ -39,7 +41,9 @@ function getGames(){
                 mined: false,
                 question: false,
                 revealed: false
-            }]]
+            }]],
+            "revealed": 0,
+            "finished": false
         }),
         new Game({
             "_id": "5e54545e4dc3ab191dde34d3",
@@ -75,7 +79,9 @@ function getGames(){
                                 revealed: false
                             }
                         ]      
-                    ]
+                    ],
+            "revealed": 0,
+            "finished": false
         }),
     ]
 }
@@ -90,7 +96,9 @@ function gameToInsert(){
             mined: false,
             question: false,
             revealed: false
-        }]]
+        }]],
+        "revealed": 0,
+        "finished": false
     })
 }
 
@@ -105,7 +113,9 @@ function gamesToInsert(){
                 mined: false,
                 question: false,
                 revealed: false
-            }]]
+            }]],
+            "revealed": 0,
+            "finished": false
         }),
         new Game({
             "rows": 2,
@@ -140,7 +150,9 @@ function gamesToInsert(){
                                 revealed: false
                             }
                         ]      
-                    ]
+                    ],
+            "revealed": 0,
+            "finished": false
         })
     ]
 }

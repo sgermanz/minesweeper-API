@@ -9,7 +9,9 @@ class Game {
             "rows", 
             "columns", 
             "mines",
-            "field"
+            "field",
+            "revealed",
+            "finished"
         ]
         for(var i = 0; i < properties.length; i++){
             let property = properties[i];
@@ -92,6 +94,112 @@ class Game {
     present(property){
         return this[property] != undefined;
     }
+
+    updateCell(x, y, data){
+        this.field[x][y] = data;
+    }
+
+    reveal(x, y){
+        let current_cell = this.field[x][y];
+
+        if(current_cell.mined){
+            this.endGame()
+        }
+        else{
+            let adjacent = this.getAdjacent(x, y);
+            current_cell.adjacent_mines = adjacent.mines;
+
+            for(var i = 0; i < adjacent.cells.length; i++){
+                this.revealAdjacent(adjacent.cells[i][0], adjacent.cells[i][1])
+            }
+        }
+
+        current_cell.revealed = true;
+        this.updateCell(x, y, current_cell);
+        this.updateGameStatus();
+    }
+
+    validCoordinates(x, y){
+        return x >= 0 &&
+               x < this.rows &&
+               y >= 0 &&
+               y < this.columns
+    }
+
+    getAdjacent(x, y){
+        //returns unrevealed and unmined adjacent mines
+        let adjacent_values = [
+            [x, y - 1],
+            [x, y + 1],
+            [x - 1, y],
+            [x + 1, y],
+            [x - 1, y - 1],
+            [x - 1, y + 1],
+            [x + 1, y - 1],
+            [x + 1, y + 1] 
+        ]
+
+        let adjacent_cells = [];
+        let adjacent_mines = 0;
+
+        for(var i = 0; i < adjacent_values.length; i++){
+            let current = adjacent_values[i];
+            if(this.validCoordinates(current[0], current[1])){
+                let cell = this.field[current[0]][current[1]]
+                if(!cell.revealed && !cell.mined){
+                    adjacent_cells.push(current);
+                }
+                if(cell.mined){
+                    adjacent_mines++;
+                }
+            }
+        }
+        return {
+            cells: adjacent_cells, 
+            mines: adjacent_mines
+        }
+    }
+
+    revealAdjacent(x, y){
+        let current = this.field[x][y];
+
+        let adjacent = this.getAdjacent(x, y);
+
+        current.revealed = true;
+        current.adjacent_mines = adjacent.mines;
+        this.updateCell(x, y, current);
+
+        for(var i = 0; i < adjacent.cells.length; i++){
+            this.revealAdjacent(adjacent.cells[i][0], adjacent.cells[i][1])
+        }
+    }
+
+    endGame(){
+        this.finished = true;
+        //finish and reveal all
+        for(var i = 0; i < this.rows; i++){
+            for(var j = 0; j < this.columns; j++){
+                this.field[i][j].revealed = true;
+            }
+        }
+    }
+
+    updateGameStatus(){
+        let revealed_count = 0;
+        //updates revealed amount and validates game status
+        for(var i = 0; i < this.rows; i++){
+            for(var j = 0; j < this.columns; j++){
+                if(this.field[i][j].revealed){
+                    revealed_count++;
+                }
+            }
+        }
+        this.revealed = revealed_count;
+        if(this.revealed == this.rows * this.columns){
+            this.finished = true;
+        }
+    }
+
 }
 
 module.exports = Game

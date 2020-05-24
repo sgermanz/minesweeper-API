@@ -11,8 +11,11 @@ var gameSchema = Schema({
         flagged: Boolean,
         mined: Boolean,
         question: Boolean,
-        revealed: Boolean
-    }]]
+        revealed: Boolean,
+        adjacent_mines: Number
+    }]],
+    revealed: { type: String, default: 0},
+    finished: { type: Boolean, default: false}
 });
 
 module.exports = mongoose.model('game', gameSchema, "games");
