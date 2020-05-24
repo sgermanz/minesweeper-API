@@ -50,6 +50,8 @@ async function updateGame(game){
         gameObj.columns = !_.isUndefined(game.columns) ? game.columns : gameObj.columns;
         gameObj.mines = !_.isUndefined(game.mines) ? game.mines : gameObj.mines;
         gameObj.field = !_.isUndefined(game.field) ? game.field : gameObj.field;
+        gameObj.revealed = !_.isUndefined(game.revealed) ? game.revealed : gameObj.revealed;
+        gameObj.finished = !_.isUndefined(game.finished) ? game.finished : gameObj.finished;
         
         return new Game(await gameObj.save());
     }

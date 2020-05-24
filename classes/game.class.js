@@ -200,6 +200,13 @@ class Game {
         }
     }
 
+    flagCell(x,y){
+        this.field[x][y].flagged = true;
+    }
+
+    questionCell(x,y){
+        this.field[x][y].question = true;
+    }
 }
 
 module.exports = Game

@@ -26,6 +26,15 @@ router.get('/', authorize(allowed_read_roles), function(req, res) {
 router.post('/', authorize(allowed_write_roles), function(req, res) {
   gameController.createGame(req, res);
 });
+router.post('/:id/flag', authorize(allowed_write_roles), function(req, res) {
+  gameController.flagCell(req, res);
+});
+router.post('/:id/question', authorize(allowed_write_roles), function(req, res) {
+  gameController.questionCell(req, res);
+});
+router.post('/:id/reveal', authorize(allowed_write_roles), function(req, res) {
+  gameController.revealCell(req, res);
+});
 
 /* UPDATE */
 router.put('/:id', authorize(allowed_write_roles), function(req, res) {

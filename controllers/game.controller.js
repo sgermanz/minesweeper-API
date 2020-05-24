@@ -15,6 +15,7 @@ const MODULE_NAME = '[Game Controller]';
 
 // Error Messages
 const GAME_NOT_FOUND = 'Game not found';
+const INVALID_PARAMETERS = 'Invalid Parameters';
 
 // Success Messages
 const GAME_DELETED_SUCCESSFULLY = 'Game deleted successfully';
@@ -71,7 +72,6 @@ async function createGame(req, res) {
     let columns = params.columns;
     let rows = params.rows;
     let mines = params.mines;
-    console.log("params", params)
     if(mines > columns * rows){
         throw "More mines than cells"
     }
@@ -122,6 +122,109 @@ async function deleteGame(req, res) {
   }
 }
 
+async function flagCell(req, res){
+  try{
+      // Receiving parameters
+      var params = {
+        id: req.params.id
+      };
+  
+      if(_.isUndefined(req.body.x) || _.isUndefined(req.body.y)){
+        res.status(404).json(messageHelper.buildMessage(INVALID_PARAMETERS))
+      }
+      else{
+        params.x = req.body.x;
+        params.y = req.body.y;
+      }
+      let game = await gameService.getGameById(params.id);
+
+      if (_.isUndefined(game)) {
+        res.status(404).json(messageHelper.buildMessage(GAME_NOT_FOUND))
+      }
+
+      if(!game.validCoordinates(params.x, params.y)){
+        res.status(404).json(messageHelper.buildMessage(INVALID_PARAMETERS))
+      }
+
+      game.flagCell(params.x, params.y);
+
+      let response =  await gameService.updateGame(game);      
+      res.json(response);
+
+    } catch (error) {
+      controllerHelper.handleErrorResponse(MODULE_NAME, getGameById.name, error, res);
+    }
+}
+
+async function questionCell(req, res){
+  try{
+      // Receiving parameters
+      var params = {
+        id: req.params.id
+      };
+  
+      if(_.isUndefined(req.body.x) || _.isUndefined(req.body.y)){
+        res.status(404).json(messageHelper.buildMessage(INVALID_PARAMETERS))
+      }
+      else{
+        params.x = req.body.x;
+        params.y = req.body.y;
+      }
+      let game = await gameService.getGameById(params.id);
+
+      if (_.isUndefined(game)) {
+        res.status(404).json(messageHelper.buildMessage(GAME_NOT_FOUND))
+      }
+
+      if(!game.validCoordinates(params.x, params.y)){
+        res.status(404).json(messageHelper.buildMessage(INVALID_PARAMETERS))
+      }
+
+      game.questionCell(params.x, params.y);
+
+      let response =  await gameService.updateGame(game);      
+      res.json(response);
+
+    } catch (error) {
+      controllerHelper.handleErrorResponse(MODULE_NAME, getGameById.name, error, res);
+    }
+}
+
+async function revealCell(req, res){
+  try{
+      // Receiving parameters
+      var params = {
+        id: req.params.id
+      };
+  
+      if(_.isUndefined(req.body.x) || _.isUndefined(req.body.y)){
+        res.status(404).json(messageHelper.buildMessage(INVALID_PARAMETERS))
+      }
+      else{
+        params.x = req.body.x;
+        params.y = req.body.y;
+      }
+      let game = await gameService.getGameById(params.id);
+
+      if (_.isUndefined(game)) {
+        res.status(404).json(messageHelper.buildMessage(GAME_NOT_FOUND))
+      }
+
+      if(!game.validCoordinates(params.x, params.y)){
+        res.status(404).json(messageHelper.buildMessage(INVALID_PARAMETERS))
+      }
+
+      game.reveal(params.x, params.y);
+      console.log("game", game)
+
+      let response =  await gameService.updateGame(game);      
+      res.json(response);
+
+    } catch (error) {
+      controllerHelper.handleErrorResponse(MODULE_NAME, getGameById.name, error, res);
+    }
+}
+
 module.exports = {
   getGames,
   getGameById,
@@ -130,5 +233,9 @@ module.exports = {
   deleteGame,
   GAME_NOT_FOUND,
   GAME_DELETED_SUCCESSFULLY,
-  MODULE_NAME
+  INVALID_PARAMETERS,
+  MODULE_NAME,
+  flagCell,
+  questionCell,
+  revealCell
 }
