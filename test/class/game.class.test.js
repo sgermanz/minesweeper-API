@@ -146,10 +146,3 @@ describe('game Class test', () => {
         expect(game.revealed).toEqual(9);
     });
 });
-
-
-// reveal
-// +getAdjacent
-// revealAdjacent
-// +endGame
-// +updateGameStatus
