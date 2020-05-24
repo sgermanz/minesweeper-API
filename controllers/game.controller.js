@@ -27,7 +27,10 @@ const GAME_DELETED_SUCCESSFULLY = 'Game deleted successfully';
 async function getGames(req, res) {
     // Call to service
   try{
-    var result = await gameService.getGames();
+    let params = {
+      user: req.user._id
+    }
+    var result = await gameService.getGames(params);
     
     // Returning the result
     res.json(result);
@@ -62,6 +65,7 @@ async function createGame(req, res) {
   try {
     // Receiving parameters
     var params = req.body;
+    params.user = req.user._id;
     var mandatory = ["rows", "columns", "mines"];
     for(var i = 0; i < mandatory.length; i++){
         if(params[mandatory[i]] == undefined) {
@@ -215,7 +219,6 @@ async function revealCell(req, res){
       }
 
       game.reveal(params.x, params.y);
-      console.log("game", game)
 
       let response =  await gameService.updateGame(game);      
       res.json(response);

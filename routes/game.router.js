@@ -5,12 +5,10 @@ var gameController = require('../controllers/game.controller')
 var authorize = require('../helpers/authorization.helper').authorize
 
 const allowed_read_roles = [
-  process.env.ROLE_USER,
-  process.env.ROLE_ADMIN
+  process.env.ROLE_USER
 ]
 
 const allowed_write_roles = [
-  process.env.ROLE_ADMIN,
   process.env.ROLE_USER
 ]
 

@@ -11,7 +11,8 @@ class Game {
             "mines",
             "field",
             "revealed",
-            "finished"
+            "finished",
+            "user"
         ]
         for(var i = 0; i < properties.length; i++){
             let property = properties[i];

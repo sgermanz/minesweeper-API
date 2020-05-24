@@ -30,7 +30,7 @@ passport.use(new JwtStrategy(opts, (jwt_payload, done)=>{
         "username": "aUsername",
         "password": "aPassword",
         "email": "anEmail@aDomain.com",
-        "role": "admin",
+        "role": "user",
         "__v": 0
     }
     return done(null, data); 

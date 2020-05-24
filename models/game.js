@@ -15,7 +15,8 @@ var gameSchema = Schema({
         adjacent_mines: Number
     }]],
     revealed: { type: String, default: 0},
-    finished: { type: Boolean, default: false}
+    finished: { type: Boolean, default: false},
+    user: { type: Schema.Types.ObjectId, ref: 'user'},
 });
 
 module.exports = mongoose.model('game', gameSchema, "games");

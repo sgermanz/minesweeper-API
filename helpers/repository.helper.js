@@ -22,8 +22,6 @@ function compareMongooseObjects(object1, object2, attributes){
         // }
         // else{
             current_equal = _.isEqual(object1[attribute], object2[attribute]);
-            console.log("atribute", attribute);
-            console.log("equal", current_equal)
         // }
         equal = equal && current_equal;
     }

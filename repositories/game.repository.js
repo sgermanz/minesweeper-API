@@ -69,9 +69,9 @@ async function getGameById(id){
     }
 }
 
-async function getGames(){
+async function getGames(params){
     try{
-        let respository_games = await GameModel.find(); 
+        let respository_games = await GameModel.find({user: params.user}); 
         let games = [];
         for(var i = 0; i < respository_games.length; i++){
             games.push(new Game(respository_games[i]))

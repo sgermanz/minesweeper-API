@@ -38,8 +38,6 @@ function buildErrorResponse(nameController, nameMethod, err) {
 
 function handleErrorResponse(controllerName, methodName, err, res) {
 
-  //console.log(buildErrorLog(err));
-
   var jsonResultFailed = buildErrorResponse(controllerName, methodName, err);
   res.status(500).send(jsonResultFailed);
 }
