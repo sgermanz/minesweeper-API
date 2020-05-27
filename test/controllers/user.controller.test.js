@@ -29,15 +29,13 @@ describe('User Controller Tests', () => {
         test('POST /users Succesfully', async () => {
           let storageStub = sinon.stub (repository, 'initialize').returns({});
           let userServiceCreateStub = sinon.stub(userService, 'createUser').returns(userExpectations.getUserByID());
-          let userServiceGetUserByUsernameStub = sinon.stub(userService, 'getUserByUsername').returns(userExpectations.getUserByID());
+          let userServiceGetUserByUsernameStub = sinon.stub(userService, 'getUserByUsername').returns(undefined);
           var response = await request
           .post('/users/register')
           .send(userExpectations.getUserByID())
           .set('Accept', 'application/json')
-          .set('Authorization', 'Bearer ' + jwt.token)
           .expect('Content-Type', /json/)
           .expect(200)
-          
           expect(response.body.data).toEqual(userExpectations.getUserByID());
 
           storageStub.restore()
@@ -56,7 +54,6 @@ describe('User Controller Tests', () => {
           .post('/users/login')
           .send(userExpectations.getUserByID())
           .set('Accept', 'application/json')
-          .set('Authorization', 'Bearer ' + jwt.token)
           .expect('Content-Type', /json/)
           .expect(200)
           

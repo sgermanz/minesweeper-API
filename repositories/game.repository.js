@@ -2,6 +2,7 @@
 var GameModel = require('../models/game')
 var Game = require('../classes/game.class')
 var _ = require('lodash');
+var errorHelper = require('../helpers/error.helper');
 
 // var gameSchema = Schema({
 //     rows: Number,
@@ -21,7 +22,7 @@ async function createGame(game){
         return new Game(await gameObj.save());
     }
     catch(error){
-        throw error;
+        throw errorHelper.getError(102);
     }
 }
 
@@ -30,7 +31,7 @@ async function removeGame(id){
         return new Game(await GameModel.findByIdAndRemove(id));
     }
     catch(error){
-        throw error;
+        throw errorHelper.getError(104)
     }
 } 
 
@@ -56,7 +57,7 @@ async function updateGame(game){
         return new Game(await gameObj.save());
     }
     catch(error){
-        throw error;
+        throw errorHelper.getError(103)
     }
 }
 
@@ -65,7 +66,7 @@ async function getGameById(id){
         return new Game(await GameModel.findById(id));
     }
     catch(error){
-        throw error;
+        throw errorHelper.getError(101)
     }
 }
 
@@ -79,7 +80,7 @@ async function getGames(params){
         return games;
     }
     catch(error){
-        throw error;
+        throw errorHelper.getError(100);
     }
 }
 

@@ -14,16 +14,16 @@ function getPassport(){
         try{
             let data = await UserRepository.getUserByUsername(username)
             if(data === null){
-                return done(null, false); //user does not exist
+                return done(null, false); 
             } 
             else if(!bcrypt.compareSync(password, data.password)){ 
                 return done(null, false); 
-            } //password does not match
-            return done(null, data); //login ok
+            } 
+            return done(null, data); 
         }
         catch(err){
             done(err, null)
-        } // database error
+        }
     }));
 
     let opts = {}
@@ -34,16 +34,13 @@ function getPassport(){
     passport.use(new JwtStrategy(opts, (jwt_payload, done)=>{
         UserRepository.getUserById(jwt_payload.sub)
         .then(data=>{
-            if (data === null) { //user does not exist
+            if (data === null) {
                 return done(null, false);
             }
-            //found user
             else  
                 return done(null, data);
-        })
-        .catch((err)=>{
-            done(err, null)
-        })
+            })
+            .catch(err=>done(err, null)) 
     }));
     return passport;
 }

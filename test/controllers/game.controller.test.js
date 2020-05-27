@@ -84,28 +84,6 @@ describe('Game Controller Tests', () => {
       });
     });
 
-    describe('updateGame Tests', () => {
-      describe('PUT /games/:id', () => {
-        test('PUT /games/:id Succesfully', async () => {
-          
-          let storageStub = sinon.stub (repository, 'initialize').returns({});
-          let gameServiceStub = sinon.stub(gameService, 'updateGame').returns(gameExpectations.getGameByID());
-          var response = await request
-          .put('/games/' + gameExpectations.getGameByID()._id)
-          .send(gameExpectations.getGameByID())
-          .set('Accept', 'application/json')
-          .set('Authorization', 'Bearer ' + jwt.token)
-          .expect('Content-Type', /json/)
-          .expect(200);
-          
-          expect(response.body).toEqual(gameExpectations.getGameByID());
-
-          gameServiceStub.restore();
-          storageStub.restore();
-        })
-      });
-    });
-
     describe('deleteGame Tests', () => {
       describe('DELETE /games/:id', () => {
         test('DELETE /games/:id Succesfully', async () => {

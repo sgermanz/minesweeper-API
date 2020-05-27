@@ -2,6 +2,7 @@
 
 var GameRepository = require('../repositories/game.repository')
 var Game = require('../classes/game.class')
+var errorHelper = require('../helpers/error.helper');
 
 ////////////////////////////////////////////////////////////////////////////////
 // MESSAGES
@@ -22,7 +23,7 @@ async function createGame(game){
         return GameRepository.createGame(new Game(game))
     }
     catch(error){
-        throw CREATE_ERROR + JSON.stringify(error);
+        throw errorHelper.errorPropagation(error, 202)
     }
 }
 
@@ -31,7 +32,7 @@ async function removeGame(id){
         return GameRepository.removeGame(id)
     }
     catch(error){
-        throw DELETE_ERROR + JSON.stringify(error);
+        throw errorHelper.errorPropagation(error, 204)
     }
 } 
 
@@ -40,7 +41,7 @@ async function updateGame(game){
         return GameRepository.updateGame(game);
     }
     catch(error){
-        throw UPDATE_ERROR + JSON.stringify(error);
+        throw errorHelper.errorPropagation(error, 203)
     }
 }
 
@@ -49,7 +50,7 @@ async function getGameById(id){
         return GameRepository.getGameById(id)
     }
     catch(error){
-        throw FIND_ONE_BY_ID_ERROR + JSON.stringify(error);
+        throw errorHelper.errorPropagation(error, 201)
     }
 }
 
@@ -59,7 +60,7 @@ async function getGames(params){
         return response;
     }
     catch(error){
-        throw FIND_MANY_ERROR + JSON.stringify(error);
+        throw errorHelper.errorPropagation(error, 200)
     }
 }
 

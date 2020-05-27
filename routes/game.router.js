@@ -34,11 +34,6 @@ router.post('/:id/reveal', authorize(allowed_write_roles), function(req, res) {
   gameController.revealCell(req, res);
 });
 
-/* UPDATE */
-router.put('/:id', authorize(allowed_write_roles), function(req, res) {
-  gameController.updateGame(req, res);
-});
-
 /* DELETE */
 router.delete('/:id', authorize(allowed_write_roles), function(req, res) {
   gameController.deleteGame(req, res);

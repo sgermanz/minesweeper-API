@@ -1,6 +1,7 @@
 'use strict';
 var UserModel = require('../models/user')
 var _ = require('lodash');
+var errorHelper = require('../helpers/error.helper');
 
 // var userSchema = Schema({
 //     username: {type: String, required: true},
@@ -8,24 +9,20 @@ var _ = require('lodash');
 //     password: {type: String, required: true}
 // });
 
+////////////////////////////////////////////////////////////////////////////////
+// PUBLIC FUNCTIONS
+////////////////////////////////////////////////////////////////////////////////
+
 async function createUser(user){
     try{
         var userObj = new UserModel(user);
+
         return await userObj.save();
     }
     catch(error){
-        throw error;
+        throw errorHelper.getError(106)
     }
 }
-
-async function removeUser(id){
-    try{
-        return await UserModel.findByIdAndRemove(id);
-    }
-    catch(error){
-        throw error;
-    }
-} 
 
 async function removeAllUsers(){
     try{
@@ -36,26 +33,12 @@ async function removeAllUsers(){
     }
 } 
 
-async function updateUser(user){
-    try{
-        var userObj = await UserModel.findById(user.id);
-        userObj.username = !_.isUndefined(user.username) ? user.username : userObj.username;
-        userObj.password = !_.isUndefined(user.password) ? user.password : userObj.password;
-        userObj.email = !_.isUndefined(user.email) ? user.email : userObj.email;
-        
-        return await userObj.save();
-    }
-    catch(error){
-        throw error;
-    }
-}
-
 async function getUserById(id){
     try{
         return await UserModel.findById(id)
     }
     catch(error){
-        throw error;
+        throw errorHelper.getError(105)
     }
 }
 
@@ -65,25 +48,13 @@ async function getUserByUsername(username){
         return result[0];
     }
     catch(error){
-        throw error;
-    }
-}
-
-async function getUsers(){
-    try{
-        return await UserModel.find() 
-    }
-    catch(error){
-        throw error;
+        throw errorHelper.getError(105)
     }
 }
 
 module.exports = {
     createUser,
-    removeUser,
     removeAllUsers,
-    updateUser,
     getUserById,
     getUserByUsername,
-    getUsers
 }
