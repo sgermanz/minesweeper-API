@@ -16,6 +16,7 @@ var gameSchema = Schema({
     }]],
     revealed: { type: String, default: 0},
     finished: { type: Boolean, default: false},
+    time: { type: String, default: "00:00"},
     user: { type: Schema.Types.ObjectId, ref: 'user'},
 });
 

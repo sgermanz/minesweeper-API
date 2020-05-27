@@ -36,6 +36,7 @@ async function register(req, res) {
             };
             let inserted = await userService.createUser(document);
             res.json({ data: inserted });
+
         }
     }
     catch(error){ 
@@ -47,7 +48,7 @@ async function login(req, res, next){
     try{
         passport.authenticate("local", { session: false }, (error, user) => {
             if (error || !user) {
-                throw errorHelper.getError(321)
+                errorHelper.errorResponse(res, errorHelper.getError(321), 320);
             }else {
                 const payload = {
                     sub: user._id,

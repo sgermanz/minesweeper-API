@@ -116,12 +116,13 @@ async function flagCell(req, res){
         id: req.params.id
       };
   
-      if(_.isUndefined(req.body.x) || _.isUndefined(req.body.y)){
+      if(_.isUndefined(req.body.x) || _.isUndefined(req.body.y) || _.isUndefined(req.body.time)){
         throw errorHelper.getError(306)
       }
       else{
         params.x = req.body.x;
         params.y = req.body.y;
+        params.time = req.body.time;
       }
       let game = await gameService.getGameById(params.id);
 
@@ -134,7 +135,7 @@ async function flagCell(req, res){
       }
 
       game.flagCell(params.x, params.y);
-
+      game.time = params.time;
       let response =  await gameService.updateGame(game);      
       res.json(response);
 
@@ -150,12 +151,13 @@ async function questionCell(req, res){
         id: req.params.id
       };
   
-      if(_.isUndefined(req.body.x) || _.isUndefined(req.body.y)){
+      if(_.isUndefined(req.body.x) || _.isUndefined(req.body.y) || _.isUndefined(req.body.time)){
         throw errorHelper.getError(310)
       }
       else{
         params.x = req.body.x;
         params.y = req.body.y;
+        params.time = req.body.time;
       }
       let game = await gameService.getGameById(params.id);
 
@@ -167,8 +169,7 @@ async function questionCell(req, res){
         throw errorHelper.getError(312)
       }
 
-      game.questionCell(params.x, params.y);
-
+        game.time = params.time;game.questionCell(params.x, params.y);
       let response =  await gameService.updateGame(game);      
       res.json(response);
 
@@ -184,12 +185,13 @@ async function revealCell(req, res){
         id: req.params.id
       };
   
-      if(_.isUndefined(req.body.x) || _.isUndefined(req.body.y)){
+      if(_.isUndefined(req.body.x) || _.isUndefined(req.body.y) || _.isUndefined(req.body.time)){
         throw errorHelper.getError(314)
       }
       else{
         params.x = req.body.x;
         params.y = req.body.y;
+        params.time = req.body.time;
       }
       let game = await gameService.getGameById(params.id);
 
@@ -202,7 +204,7 @@ async function revealCell(req, res){
       }
 
       game.reveal(params.x, params.y);
-
+      game.time = params.time;
       let response =  await gameService.updateGame(game);      
       res.json(response);
 
