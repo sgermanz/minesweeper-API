@@ -23,7 +23,7 @@ async function createGame(game){
         return GameRepository.createGame(new Game(game))
     }
     catch(error){
-        throw errorHelper.errorPropagation(error, 202)
+        throw errorHelper.errorPropagation("games", error, 200)
     }
 }
 
@@ -32,7 +32,7 @@ async function removeGame(id){
         return GameRepository.removeGame(id)
     }
     catch(error){
-        throw errorHelper.errorPropagation(error, 204)
+        throw errorHelper.errorPropagation("games", error, 201)
     }
 } 
 
@@ -41,7 +41,7 @@ async function updateGame(game){
         return GameRepository.updateGame(game);
     }
     catch(error){
-        throw errorHelper.errorPropagation(error, 203)
+        throw errorHelper.errorPropagation("games", error, 202)
     }
 }
 
@@ -50,7 +50,7 @@ async function getGameById(id){
         return GameRepository.getGameById(id)
     }
     catch(error){
-        throw errorHelper.errorPropagation(error, 201)
+        throw errorHelper.errorPropagation("games", error, 203)
     }
 }
 
@@ -60,7 +60,7 @@ async function getGames(params){
         return response;
     }
     catch(error){
-        throw errorHelper.errorPropagation(error, 200)
+        throw errorHelper.errorPropagation("games", error, 204)
     }
 }
 

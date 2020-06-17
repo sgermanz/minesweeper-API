@@ -6,7 +6,6 @@ const userService = require('../services/user.service');
 const bcrypt    = require('bcrypt');
 const passport  = require('passport');
 const jwt       = require('jsonwebtoken');
-var messageHelper = require('../helpers/message.helper');
 var errorHelper = require('../helpers/error.helper');
 
 
@@ -25,7 +24,7 @@ async function register(req, res) {
     try{
         let data = await userService.getUserByUsername(req.body.username)
         if (data != undefined) { 
-            throw errorHelper.getError(319)
+            throw errorHelper.getError("users", 302)
         }
         else { 
             var hash = bcrypt.hashSync(req.body.password, parseInt(process.env.BCRYPT_ROUNDS));
@@ -40,7 +39,7 @@ async function register(req, res) {
         }
     }
     catch(error){ 
-        errorHelper.errorResponse(res, error, 318);
+        errorHelper.errorResponse(res, "users", error, 300);
     }
 }
 
@@ -48,7 +47,7 @@ async function login(req, res, next){
     try{
         passport.authenticate("local", { session: false }, (error, user) => {
             if (error || !user) {
-                errorHelper.errorResponse(res, errorHelper.getError(321), 320);
+                errorHelper.errorResponse(res, "users", errorHelper.getError("users", 303), 301);
             }else {
                 const payload = {
                     sub: user._id,
@@ -63,7 +62,7 @@ async function login(req, res, next){
         })(req, res);
     }
     catch(error){
-        errorHelper.errorResponse(res, error, 320);
+        errorHelper.errorResponse(res, "users", error, 301);
     }
 }
 

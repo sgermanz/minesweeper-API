@@ -12,7 +12,7 @@ async function createUser(user){
         return UserRepository.createUser(user)
     }
     catch(error){
-        throw errorHelper.errorPropagation(error, 206)
+        throw errorHelper.errorPropagation("users", error, 200)
     }
 }
 
@@ -21,7 +21,7 @@ async function getUserById(id){
         return UserRepository.getUserById(id)
     }
     catch(error){
-        throw errorHelper.errorPropagation(error, 205)
+        throw errorHelper.errorPropagation("users", error, 201)
     }
 }
 
@@ -30,7 +30,7 @@ async function getUserByUsername(id){
         return UserRepository.getUserByUsername(id)
     }
     catch(error){
-        throw errorHelper.errorPropagation(error, 205)
+        throw errorHelper.errorPropagation("users", error, 202)
     }
 }
 

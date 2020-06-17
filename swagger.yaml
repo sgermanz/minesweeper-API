@@ -1,0 +1,149 @@
+swagger: "2.0"
+info:
+  title: "Minesweeper API"
+  description: "This is the minesweeper API definition"
+  version: 1.0.0
+  
+# host: localhost:3001
+basePath: /api
+schemes:
+  - http
+  
+consumes:
+  - application/json
+produces:
+  - application/json
+  
+paths:
+  /users/login:
+    post:
+      summary: "User Login"
+      parameters:
+        - in: body
+          name: user
+          schema:
+            $ref: '#/components/schemas/User'
+      responses:
+        '200':
+          description: 'OK'
+          schema:
+            $ref: '#/components/schemas/UserToken'
+        '400': 
+            $ref: '#/responses/Invalid'
+        '500':
+            $ref: '#/responses/Unexpected'
+            
+  /users/register:
+    post:
+      summary: "User Registration"
+      parameters:
+        - in: body
+          name: user
+          schema:
+            $ref: '#/components/schemas/User'
+      responses:
+        '200':
+          description: 'OK'
+          schema:
+            $ref: '#/components/schemas/UserRegistration'
+        '400': 
+            $ref: '#/responses/Invalid'
+        '500':
+            $ref: '#/responses/Unexpected'
+            
+responses:
+  Invalid:
+    description: Unauthorized or invalid operation
+    schema:
+      $ref: '#/components/schemas/Error'
+  Unexpected:
+    description: Unexpected Error
+    schema:
+      $ref: '#/components/schemas/Error'
+           
+                
+components:
+  schemas:
+    Error:
+      description: "Custom Error"
+      schema:
+        type: object
+        properties:
+          name:
+            type: string
+          error_code:
+            type: string
+          http_code:
+            type: string
+          description:
+            type: string
+      example:
+        name: "Custom Error"
+        error_code: "301"
+        http_code: "400"
+        description: "An Unexpected Error Ocurred"
+      
+    User:
+      description: "User object"
+      required: true
+      schema:
+        type: object
+        properties:
+          username:
+            type: string
+          password:
+            type: string
+      example:
+        username: "user"
+        password: "u.1234567"
+        
+    UserToken:
+      description: "Authentication Object"
+      schema:
+        type: object
+        properties:
+          data:
+            type: object
+            properties:
+              token:
+                type: string
+              username:
+                type: string
+              role:
+                type: string
+              id:
+                type: string
+      example:
+        token: "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI1ZWM5MTY3MTczZWQ5MTNhMDkxMjFhOTUiLCJleHAiOjE1OTIyNTE2Mzk4NDYsInVzZXJuYW1lIjoidXNlciIsInJvbGUiOiJ1c2VyIn0.yp_WTCdj44N7EULeS3gUQmusgXtKNvViTNnnazjZdg"
+        username: "user"
+        role: "user"
+        id: "5ec9167173ed913a09121a95"
+        
+    UserRegistration:
+      description: "Authentication Object"
+      schema:
+        type: object
+        properties:
+          data:
+            type: object
+            properties:
+              role:
+                type: string
+              _id:
+                type: string
+              username:
+                type: string
+              email:
+                type: string
+              password:
+                type: string
+              __v:
+                type: number
+      example:
+        role: "user"
+        _id: "5ee7dff27b992437c8da2755"
+        username: "user10"
+        email: "some_email@some_domain.com"
+        password: "$2b$10$D4LDZvkCyZjy.6j7af4jDOqcX9s8VicH9nKATwSPpVvxIg1ao9yX6"
+        __v: 0
+      

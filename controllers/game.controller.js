@@ -2,8 +2,6 @@
 
 var _ = require('lodash');
 
-var controllerHelper = require('../helpers/controller.helper');
-var messageHelper = require('../helpers/message.helper');
 var gameService = require('../services/game.service');
 var errorHelper = require('../helpers/error.helper');
 
@@ -36,7 +34,7 @@ async function getGames(req, res) {
     // Returning the result
     res.json(result);
   } catch (error) {
-      errorHelper.errorResponse(res, error, 300);
+      errorHelper.errorResponse(res, "games", error, 300);
   }
 }
 
@@ -54,10 +52,10 @@ async function getGameById(req, res) {
     if (!_.isUndefined(result)) {
       res.json(result);
     } else {
-      res.status(404).json(messageHelper.buildMessage(GAME_NOT_FOUND))
+      throw errorHelper.getError(307);
     }
   } catch (error) {
-    errorHelper.errorResponse(res, error, 301);
+    errorHelper.errorResponse(res, "games", error, 301);
   }
 }
 
@@ -70,7 +68,7 @@ async function createGame(req, res) {
     var mandatory = ["rows", "columns", "mines"];
     for(var i = 0; i < mandatory.length; i++){
         if(params[mandatory[i]] == undefined) {
-          throw errorHelper.getError(303)
+          throw errorHelper.getError(308)
         }
     }
 
@@ -78,7 +76,7 @@ async function createGame(req, res) {
     let rows = params.rows;
     let mines = params.mines;
     if(mines > columns * rows){
-      throw errorHelper.getError(304)
+      throw errorHelper.getError(309)
     }
 
     // Call to service
@@ -87,7 +85,7 @@ async function createGame(req, res) {
     res.status(201).json(result);
 
   } catch (error) {
-    errorHelper.errorResponse(res, error, 302);
+    errorHelper.errorResponse(res, "games", error, 302);
   }
 }
 
@@ -101,11 +99,10 @@ async function deleteGame(req, res) {
 
     // Call to service
     var result = await gameService.removeGame(params.id);
-    result.message = messageHelper.buildMessage(GAME_DELETED_SUCCESSFULLY).message;
     res.json(result);
 
   } catch (error) {
-    errorHelper.errorResponse(res, error, 317);
+    errorHelper.errorResponse(res, "games", error, 303);
   }
 }
 
@@ -117,7 +114,7 @@ async function flagCell(req, res){
       };
   
       if(_.isUndefined(req.body.x) || _.isUndefined(req.body.y) || _.isUndefined(req.body.time)){
-        throw errorHelper.getError(306)
+        throw errorHelper.getError("games", 310)
       }
       else{
         params.x = req.body.x;
@@ -127,11 +124,11 @@ async function flagCell(req, res){
       let game = await gameService.getGameById(params.id);
 
       if (_.isUndefined(game)) {
-        throw errorHelper.getError(307)
+        throw errorHelper.getError("games", 311)
       }
 
       if(!game.validCoordinates(params.x, params.y)){
-        throw errorHelper.getError(308)
+        throw errorHelper.getError("games", 312)
       }
 
       game.flagCell(params.x, params.y);
@@ -140,7 +137,7 @@ async function flagCell(req, res){
       res.json(response);
 
     } catch (error) {
-      errorHelper.errorResponse(res, error, 305);
+      errorHelper.errorResponse(res, "games", error, 304);
     }
 }
 
@@ -152,7 +149,7 @@ async function questionCell(req, res){
       };
   
       if(_.isUndefined(req.body.x) || _.isUndefined(req.body.y) || _.isUndefined(req.body.time)){
-        throw errorHelper.getError(310)
+        throw errorHelper.getError("games", 313)
       }
       else{
         params.x = req.body.x;
@@ -162,11 +159,11 @@ async function questionCell(req, res){
       let game = await gameService.getGameById(params.id);
 
       if (_.isUndefined(game)) {
-        throw errorHelper.getError(311)
+        throw errorHelper.getError("games", 314)
       }
 
       if(!game.validCoordinates(params.x, params.y)){
-        throw errorHelper.getError(312)
+        throw errorHelper.getError("games", 315)
       }
 
         game.time = params.time;game.questionCell(params.x, params.y);
@@ -174,7 +171,7 @@ async function questionCell(req, res){
       res.json(response);
 
     } catch (error) {
-      errorHelper.errorResponse(res, error, 309);
+      errorHelper.errorResponse(res, "games", error, 305);
     }
 }
 
@@ -186,7 +183,7 @@ async function revealCell(req, res){
       };
   
       if(_.isUndefined(req.body.x) || _.isUndefined(req.body.y) || _.isUndefined(req.body.time)){
-        throw errorHelper.getError(314)
+        throw errorHelper.getError("games", 316)
       }
       else{
         params.x = req.body.x;
@@ -196,11 +193,11 @@ async function revealCell(req, res){
       let game = await gameService.getGameById(params.id);
 
       if (_.isUndefined(game)) {
-        throw errorHelper.getError(315)
+        throw errorHelper.getError("games", 317)
       }
 
       if(!game.validCoordinates(params.x, params.y)){
-        throw errorHelper.getError(316)
+        throw errorHelper.getError("games", 318)
       }
 
       game.reveal(params.x, params.y);
@@ -209,7 +206,7 @@ async function revealCell(req, res){
       res.json(response);
 
     } catch (error) {
-      errorHelper.errorResponse(res, error, 313);
+      errorHelper.errorResponse(res, "games", error, 306);
     }
 }
 

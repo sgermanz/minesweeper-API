@@ -22,7 +22,7 @@ async function createGame(game){
         return new Game(await gameObj.save());
     }
     catch(error){
-        throw errorHelper.getError(102);
+        throw errorHelper.getError("games", 100);
     }
 }
 
@@ -31,7 +31,7 @@ async function removeGame(id){
         return new Game(await GameModel.findByIdAndRemove(id));
     }
     catch(error){
-        throw errorHelper.getError(104)
+        throw errorHelper.getError("games", 101);
     }
 } 
 
@@ -40,7 +40,7 @@ async function removeAllGames(){
         return await GameModel.remove({});
     }
     catch(error){
-        throw error;
+        throw errorHelper.getError("games", 102);
     }
 } 
 
@@ -58,7 +58,7 @@ async function updateGame(game){
         return new Game(await gameObj.save());
     }
     catch(error){
-        throw errorHelper.getError(103)
+        throw errorHelper.getError("games", 103)
     }
 }
 
@@ -67,7 +67,7 @@ async function getGameById(id){
         return new Game(await GameModel.findById(id));
     }
     catch(error){
-        throw errorHelper.getError(101)
+        throw errorHelper.getError("games", 104)
     }
 }
 
@@ -81,7 +81,7 @@ async function getGames(params){
         return games;
     }
     catch(error){
-        throw errorHelper.getError(100);
+        throw errorHelper.getError("games", 105);
     }
 }
 
