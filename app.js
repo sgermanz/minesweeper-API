@@ -5,7 +5,13 @@ const cookieParser = require('cookie-parser');
 const logger = require('morgan');
 const http = require('http');
 const cors = require('cors');
-require('dotenv').config()
+require('dotenv').config();
+var oasTools = require('oas-tools');
+var jsyaml = require('js-yaml');
+var fs = require('fs');
+
+var spec = fs.readFileSync(path.join('openapi.yaml'), 'utf8');
+var oasDoc = jsyaml.safeLoad(spec);
 
 const passport_helper = require('./helpers/passport.helper');
 
@@ -30,10 +36,10 @@ app.use(cors());
 app.use(passport_helper.getPassport().initialize());
 app.use('/', routes);
 
-// catch 404 and forward to error handler
-app.use(function(req, res, next) {
-  next(createError(404));
-});
+// // catch 404 and forward to error handler
+// app.use(function(req, res, next) {
+//   next(createError(404));
+// });
 
 // error handler
 app.use(function(err, req, res, next) {
@@ -47,7 +53,20 @@ app.use(function(err, req, res, next) {
 });
 
 if (process.env.NODE_ENV !== 'test') {
-  server.listen(port);
+  let configuration = {
+    controllers: path.join(__dirname, './controllers'),
+    loglevel: 'info',
+    strict: false,
+    router: true,
+    validator: true
+  };
+  console.log("controlers path", configuration.controllers)
+  oasTools.configure(configuration)
+  oasTools.initialize(oasDoc, app, function(){
+    server.listen(port, function(){
+      console.log("App up and runiing!")
+    });
+  })
 }  
 
 console.log("Running at Port number " + port);
@@ -81,9 +100,9 @@ function onError(error) {
   }
 }
 
-/**
-* Event listener for HTTP server "listening" event.
-*/
+// /**
+// * Event listener for HTTP server "listening" event.
+// */
 
 function onListening() {
   var addr = server.address();

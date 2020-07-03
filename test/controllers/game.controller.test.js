@@ -3,7 +3,7 @@ const sinon = require('sinon');
 const gameExpectations = require('../expectations/game.expectations');
 const gameService = require('../../services/game.service');
 const repository = require('../../repositories/init')
-const gameController = require('../../controllers/game.controller')
+const gameController = require('../../controllers/gameController')
 const jwt = require('./jwt');
 const passport = require('../../helpers/passport.helper')
 
@@ -97,7 +97,6 @@ describe('Game Controller Tests', () => {
           .expect('Content-Type', /json/)
           .expect(200);
 
-          expect(response.body.message).toEqual(gameController.GAME_DELETED_SUCCESSFULLY);
           gameServiceStub.restore();
           storageStub.restore();
         })

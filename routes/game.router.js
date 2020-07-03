@@ -1,6 +1,6 @@
 var express = require('express');
 var router = express.Router();
-var gameController = require('../controllers/game.controller')
+var gameController = require('../controllers/gameController')
 
 var authorize = require('../helpers/authorization.helper').authorize
 

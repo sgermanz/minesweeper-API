@@ -3,7 +3,7 @@ const sinon = require('sinon');
 const userExpectations = require('../expectations/user.expectations');
 const userService = require('../../services/user.service');
 const repository = require('../../repositories/init')
-const userController = require('../../controllers/user.controller')
+const userController = require('../../controllers/userController')
 const jwt = require('./jwt');
 const passport = require('../../helpers/passport.helper')
 
